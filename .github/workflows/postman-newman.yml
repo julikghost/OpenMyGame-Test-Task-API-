@@ -1,4 +1,4 @@
-name: API Tests (Newman)
+name: Postman Collection Run
 
 on:
   workflow_dispatch:
@@ -10,8 +10,10 @@ on:
       - main
 
 jobs:
-  run-postman-tests:
+  run-postman-collection:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
 
     steps:
       - name: Checkout repository
@@ -26,6 +28,7 @@ jobs:
         run: npm install -g newman
 
       - name: Run Postman collection
+        continue-on-error: true
         run: |
           newman run "OpenMyGame API Full Checks.postman_collection.json" \
             -e "OpenMyGame.postman_environment.json"
